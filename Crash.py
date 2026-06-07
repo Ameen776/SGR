@@ -7,6 +7,12 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 import telebot
 from telebot.types import Message
+import os
+
+# ========== قراءة التوكن من متغيرات البيئة ==========
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+if not BOT_TOKEN:
+    raise ValueError("❌ BOT_TOKEN not found in environment variables!")
 
 # Load the data into a Pandas DataFrame
 df = pd.read_csv('1XBetCrash.csv')
@@ -38,7 +44,7 @@ nn_reg = MLPRegressor(hidden_layer_sizes=(100,), max_iter=1000, random_state=123
 nn_reg.fit(train_X, train_y)
 
 # Create a Telegram bot object
-bot = telebot.TeleBot('YOUR_TOKEN')
+bot = telebot.TeleBot(BOT_TOKEN)
 
 # Define the handler function for the '/predict' command
 @bot.message_handler(commands=['predict'])
